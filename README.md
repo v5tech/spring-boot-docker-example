@@ -54,3 +54,5 @@ https://docs.docker.com/compose/compose-file/
 https://github.com/spotify/docker-maven-plugin
 
 https://dmp.fabric8.io
+
+http://www.cnblogs.com/kingsy/p/6411371.html

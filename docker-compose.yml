@@ -1,7 +1,8 @@
 version: '2'
 services:
   app:
-    image: ameizi/spring-boot-docker-example
+    image: library/spring-boot-docker-example
+    container_name: app
     depends_on:
       - db
     ports:
@@ -12,9 +13,10 @@ services:
       - /tmp:/tmp
   db:
     image: mariadb:latest
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
-      - /Users/feng/mysql/data:/var/lib/mysql
+      - /var/mysql/data:/var/lib/mysql

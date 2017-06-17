@@ -23,9 +23,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <!-- 阿里云镜像仓库地址 -->
-        <docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>
+        <!--<docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>-->
         <!-- 对应阿里云hub中的namespace，必须一致 -->
-        <docker.registry.name>ameizi</docker.registry.name>
+        <!--<docker.registry.name>ameizi</docker.registry.name>-->
+
+        <!-- 本地私服仓库地址 -->
+        <docker.repostory>registry.ameizi.me</docker.repostory>
+        <!-- 本地私服仓库项目名称 -->
+        <docker.registry.name>library</docker.registry.name>
     </properties>
 
     <dependencies>
@@ -99,15 +104,17 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <serverId>docker-aliyun</serverId>
+                    <serverId>registry.ameizi.me</serverId>
                     <registryUrl>${docker.repostory}</registryUrl>
                     <pushImage>true</pushImage>
                     <!-- 本地构建时的镜像名称 -->
                     <!--<imageName>${docker.registry.name}/${project.artifactId}</imageName>-->
-                    <!-- 推送到阿里云hub时的镜像名 -->
+
+                    <!-- 推送到私服时的镜像名 -->
                     <imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
                     <imageTags>
                         <imageTag>latest</imageTag>
+                        <imageTag>${project.version}</imageTag>
                     </imageTags>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
@@ -127,17 +134,17 @@
                 <extensions>true</extensions>
                 <configuration>
                     <verbose>true</verbose>
+                    <!-- 远程docker服务机器IP和监听端口 -->
+                    <dockerHost>http://registry.ameizi.me:2376</dockerHost>
                     <images>
                         <image>
                             <alias>app</alias>
                             <name>${docker.registry.name}/${project.artifactId}:${project.version}</name>
                             <build>
                                 <from>openjdk:latest</from>
-                                <!--
                                 <tags>
                                     <tag>${project.version}</tag>
                                 </tags>
-                                -->
                                 <ports>
                                     <port>8080</port>
                                 </ports>
@@ -188,7 +195,7 @@
                                 </ports>
                                 <volumes>
                                     <bind>
-                                        <volume>/Users/feng/mysql/data:/var/lib/mysql</volume>
+                                        <volume>/var/mysql/data:/var/lib/mysql</volume>
                                     </bind>
                                 </volumes>
                             </run>
@@ -197,13 +204,11 @@
                     <pushRegistry>${docker.repostory}</pushRegistry>
                     <authConfig>
                         <!-- 镜像仓库用户名密码 -->
-                        <username>username</username>
-                        <password>password</password>
+                        <username>admin</username>
+                        <password>admin</password>
                     </authConfig>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-
 </project>

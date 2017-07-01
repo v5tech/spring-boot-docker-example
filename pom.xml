@@ -26,7 +26,6 @@
         <!--<docker.repostory>registry.cn-hangzhou.aliyuncs.com</docker.repostory>-->
         <!-- 对应阿里云hub中的namespace，必须一致 -->
         <!--<docker.registry.name>ameizi</docker.registry.name>-->
-
         <!-- 本地私服仓库地址 -->
         <docker.repostory>registry.ameizi.me</docker.repostory>
         <!-- 本地私服仓库项目名称 -->
@@ -45,11 +44,30 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-remote-shell</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -109,7 +127,6 @@
                     <pushImage>true</pushImage>
                     <!-- 本地构建时的镜像名称 -->
                     <!--<imageName>${docker.registry.name}/${project.artifactId}</imageName>-->
-
                     <!-- 推送到私服时的镜像名 -->
                     <imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}</imageName>
                     <imageTags>

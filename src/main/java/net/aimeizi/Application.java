@@ -30,8 +30,8 @@ public class Application {
         });
     }
 
-    @RequestMapping("/")
-    public String hello() {
+    @RequestMapping("/info")
+    public String info() {
         return "Greetings from Spring Boot in docker!";
     }
 
